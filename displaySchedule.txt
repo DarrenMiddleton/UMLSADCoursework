@@ -1,0 +1,169 @@
+Entity:
+Staff 47 216
+null  * 
+staffId String 3 false true false costDay int 3 false false false
+
+Entity:
+Assignment 274 11
+null  * 
+
+
+Operation:
+toString
+Assignment
+String
+
+ query
+true
+result = task.taskId + ", " + task.duration + ", " + staff.staffId + ", " + staff.costDay
+
+
+Entity:
+Task 430 207
+null  * 
+taskId String 3 false true false duration int 3 false false false skillId String 3 false false false
+
+Entity:
+Story 799 143
+null  * 
+storyId String 3 false true false
+
+Entity:
+Schedule 648 65
+null  * 
+totalCost int 3 false false false
+
+Entity:
+Skill 264 405
+null  * 
+skillId String 3 false true false
+
+Association:
+Assignment Staff 0 277 49 150 216 1 staff assigned 
+ordered 
+
+Association:
+Assignment Task 0 411 50 487 207 1 task assignment 
+ordered 
+
+Association:
+Task Task 0 681 242 656 271 0 dependsOn null 720 240 676 315 
+
+
+Association:
+Story Task 1 797 160 685 207 0 subtasks null 
+ordered 
+
+Association:
+Task Skill 0 545 278 415 404 0 needs null 
+
+
+Association:
+Staff Skill 0 264 271 341 406 0 has null 
+
+
+Association:
+Assignment Schedule 0 419 31 645 74 1 null null 
+
+
+Entity:
+displaySchedule 838 488
+null  * abstract 
+
+
+Operation:
+displayTask
+displaySchedule
+String
+taskId String 
+ query
+true
+taskId->display()
+
+
+Operation:
+displaySkill
+displaySchedule
+String
+skillId String 
+ query
+true
+skillId->display()
+
+
+Operation:
+displayDuration
+displaySchedule
+int
+duration int 
+ query
+true
+duration->display()
+
+
+Operation:
+displayCost
+displaySchedule
+int
+costDay int 
+ query
+true
+costDay->display()
+
+
+Operation:
+displayStaff
+displaySchedule
+String
+staffId String 
+ query
+true
+staffId->display()
+
+
+Association:
+Assignment displaySchedule 0 416 48 876 491 -1 Assignment displaySchedule 
+
+
+
+
+
+
+GeneralUseCase:
+allocateStaff 
+
+
+
+false
+
+
+Constraint:
+null
+st : Staff & assignment.size = 0 & st.assigned.size = 0
+Assignment->exists( a | a.task = self & a.staff = st )
+Task allocateStaff
+false
+
+
+
+
+
+
+
+GeneralUseCase:
+displaySchedule 
+
+
+
+false
+
+
+Constraint:
+null
+true
+self->display()
+Assignment displaySchedule
+false
+
+
+

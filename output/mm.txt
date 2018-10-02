@@ -1,0 +1,140 @@
+Entity:
+Story 175 130
+null  1 
+storyId String 3 false true false
+
+Entity:
+Task 217 357
+null  * 
+taskId String 3 false true false duration int 3 false false false
+
+Entity:
+Staff 825 366
+null  * 
+staffId String 3 false true false costDay int 3 false false false
+
+Entity:
+Assignment 643 97
+null  * 
+
+
+Operation:
+toString
+Assignment
+String
+
+ query
+true
+result = task.taskID + ", " + task.duration + ", " + staff.staffId + ", " + staff.costDay
+
+
+Operation:
+cost
+Assignment
+int
+
+ query
+true
+result = task.duration * staff.costDay
+
+
+Entity:
+Skill 316 641
+null  * 
+skillId String 3 false true false
+
+Entity:
+Schedule 1109 191
+null  1 
+totalCost int 3 false false false
+
+Association:
+Story Task 1 374 169 374 357 0 subtasks null 
+ordered 
+
+Association:
+Task Task 1 257 412 220 412 0 dependsOn null 257 450 190 450 
+
+
+Association:
+Task Skill 0 416 412 417 640 0 needs null 
+
+
+Association:
+Schedule Assignment 1 1111 221 830 140 0 assignment null 
+ordered 
+
+Association:
+Staff Skill 0 833 420 645 635 0 has null 
+
+
+Association:
+Assignment Task 0 650 152 521 356 1 task assignment 
+
+
+Association:
+Assignment Staff 0 800 152 924 364 1 staff assigned 
+
+
+
+
+
+
+GeneralUseCase:
+allocateStaff 
+
+
+
+false
+
+
+Constraint:
+null
+st : Staff & assignment.size = 0 & st.assigned.size = 0
+Assignment->exists( a | a.task = self & a.staff = st )
+Task allocateStaff
+false
+
+
+
+
+
+
+
+GeneralUseCase:
+displaySchedule 
+
+
+
+false
+
+
+Constraint:
+null
+true
+self->display()
+Assignment displaySchedule
+false
+
+
+
+
+
+
+
+GeneralUseCase:
+calculateCost result int
+
+
+
+false
+
+
+Assumption:
+assignment.size > 0
+a : assignment & s : a.staff & t : a.task
+true
+Schedule calculateCost
+
+
+
